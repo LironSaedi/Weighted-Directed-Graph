@@ -29,15 +29,90 @@ namespace Weighted_Directed_Graphs
             }
             this.vertices.Add(vertex);
 
-            if ()//Search
-            {
 
+            if (Search(vertex.Value) != null)//Search
+            {
+                throw new Exception(" ");
             }
 
 
         }
 
-        string humanToString(int number) => number switch {
+        public bool RemoveVertex(Vertex<T> vertex)
+        {
+            if (!vertices.Contains(vertex))
+            {
+                return false;
+            }
+
+            foreach (var obj in vertices)
+            {
+                for (int i = 0; i < obj.Neighbors.Count; i++)
+                {
+                    if (obj.Neighbors[i].EndingPoint == vertex)
+                    {
+                        //Remove Edge
+                    }
+                }
+            }
+
+            return vertices.Remove(vertex);
+
+        }
+
+        public bool AddEdge(Vertex<T> a, Vertex<T> b, float distance)
+        {
+            if (!vertices.Contains(a) && !vertices.Contains(b))
+            {
+                return false;
+            }
+
+            a.Neighbors.Add(new Edge<T>(a, b, distance));
+            return true;
+        }
+
+        public bool RemoveEdge(Vertex<T> a, Vertex<T> b)
+        {
+            if (!vertices.Contains(a) && !vertices.Contains(b))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < a.Neighbors.Count; i++)
+            {
+
+                if (a.Neighbors[i].EndingPoint == b)
+                {
+                    a.Neighbors.RemoveAt(i);
+                    return true;
+                }
+
+            }
+            return false;
+
+            throw new Exception(" did not run");
+        }
+
+        Edge<T> GetEdge(Vertex<T> a, Vertex<T> b)
+        {
+            if (!vertices.Contains(a) && !vertices.Contains(b))
+            {
+                return null;
+            }
+
+            for (int i = 0; i < a.Neighbors.Count; i++)
+            {
+
+                if (a.Neighbors[i].EndingPoint == b)
+                {
+                    return a.Neighbors[i];
+                }
+
+            }
+            return null;
+        }
+        string humanToString(int number) => number switch
+        {
             1 => "one",
             2 => "two",
             3 => "three",
@@ -47,7 +122,7 @@ namespace Weighted_Directed_Graphs
         public Vertex<T> Search(T value)
         {
             return vertices.Where(vertex => vertex.Value.Equals(value)).FirstOrDefault();
-
+            /*
             int myNumber = 4;
             string s = myNumber.ToHumanString();
             string str = humanToString(myNumber);
@@ -57,6 +132,7 @@ namespace Weighted_Directed_Graphs
 
             List<int> myList = new List<int>();
             Dictionary<string, int> myDict = new Dictionary<string, int>();
+
 
             //linq is a bunch of extension methods
             //lets you process collections "naturally"
@@ -85,6 +161,7 @@ namespace Weighted_Directed_Graphs
             //SELECT UserID FROM Users WHERE Username = "Bob"
             //result: list of IDs. Could have nothing, or one value, or many values
             return value;
+            */
         }
 
         private string transformNumber(int n)
@@ -111,3 +188,26 @@ namespace Weighted_Directed_Graphs
         }
     }
 }
+
+/*
+ public static Point ToPoint(this Vector2 v)
+
+//I have a Vector2, I want a Point (to make a Rectangle, whatever>.)
+//new Point((int)myVector.X, (int)myVector.Y)
+//INSTEAD: myVector.ToPoint()
+ */
+
+
+/*
+ class MyOwnClassThatBarelyWrapsFunctionality()
+{
+    LinkedList list;
+    public void Push(T value) {
+list.AddFirst(value);
+}
+//pop.. peek
+}
+
+INSTEAD: public static void Push(this LinkedList stack, T value) {
+}
+ */
